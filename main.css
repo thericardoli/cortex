@@ -1,0 +1,353 @@
+/* Cortex Sidebar Styles */
+.cortex-sidebar {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--background-primary);
+  color: var(--text-normal);
+  font-family: var(--font-interface);
+}
+
+/* Header - Agent Selector */
+.cortex-header {
+  position: relative;
+  border-bottom: 1px solid var(--background-modifier-border);
+  padding: 8px;
+}
+
+.cortex-agent-selector {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: var(--background-secondary);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.cortex-agent-selector:hover {
+  background: var(--background-modifier-hover);
+}
+
+.cortex-agent-name {
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.cortex-agent-dropdown-icon {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.cortex-agent-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 8px;
+  right: 8px;
+  background: var(--background-primary);
+  border: 1px solid var(--background-modifier-border);
+  border-radius: 6px;
+  box-shadow: var(--shadow-s);
+  z-index: 1000;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.cortex-agent-option {
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.cortex-agent-option:hover {
+  background: var(--background-modifier-hover);
+}
+
+.cortex-agent-option.active {
+  background: var(--background-modifier-success);
+}
+
+.cortex-agent-option-name {
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.cortex-agent-option-model {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+/* Toolbar */
+.cortex-toolbar {
+  display: flex;
+  gap: 4px;
+  padding: 8px;
+  border-bottom: 1px solid var(--background-modifier-border);
+}
+
+.cortex-toolbar-btn {
+  background: var(--background-secondary);
+  border: none;
+  border-radius: 4px;
+  padding: 6px 8px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s ease;
+  color: var(--text-normal);
+}
+
+.cortex-toolbar-btn:hover {
+  background: var(--background-modifier-hover);
+}
+
+/* Session List */
+.cortex-session-list {
+  border-bottom: 1px solid var(--background-modifier-border);
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.cortex-session-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  border-bottom: 1px solid var(--background-modifier-border-focus);
+}
+
+.cortex-session-item:hover {
+  background: var(--background-modifier-hover);
+}
+
+.cortex-session-item.active {
+  background: var(--background-modifier-success);
+}
+
+.cortex-session-name {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.cortex-session-time {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.cortex-session-empty {
+  padding: 20px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+/* Messages Area */
+.cortex-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cortex-message {
+  display: flex;
+  flex-direction: column;
+  max-width: 90%;
+}
+
+.cortex-message.user {
+  align-self: flex-end;
+  align-items: flex-end;
+}
+
+.cortex-message.assistant {
+  align-self: flex-start;
+  align-items: flex-start;
+}
+
+.cortex-message-content {
+  padding: 8px 12px;
+  border-radius: 12px;
+  word-wrap: break-word;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.cortex-message.user .cortex-message-content {
+  background: var(--color-accent);
+  color: white;
+}
+
+.cortex-message.assistant .cortex-message-content {
+  background: var(--background-secondary);
+  color: var(--text-normal);
+}
+
+.cortex-message-time {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 4px;
+  padding: 0 4px;
+}
+
+/* Typing Animation */
+.cortex-typing {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 12px 16px !important;
+}
+
+.cortex-typing span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--text-muted);
+  animation: typing 1.4s infinite ease-in-out;
+}
+
+.cortex-typing span:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.cortex-typing span:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+@keyframes typing {
+  0%, 80%, 100% {
+    transform: scale(0);
+    opacity: 0.5;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Input Area */
+.cortex-input-area {
+  border-top: 1px solid var(--background-modifier-border);
+  padding: 12px;
+}
+
+.cortex-model-info {
+  margin-bottom: 8px;
+}
+
+.cortex-current-model {
+  font-size: 12px;
+  color: var(--text-muted);
+  background: var(--background-secondary);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.cortex-input-container {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  background: var(--background-secondary);
+  border-radius: 12px;
+  padding: 4px;
+}
+
+.cortex-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  resize: none;
+  padding: 8px 12px;
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--text-normal);
+  font-family: var(--font-interface);
+  min-height: 20px;
+  max-height: 120px;
+}
+
+.cortex-input::placeholder {
+  color: var(--text-muted);
+}
+
+.cortex-send-btn {
+  background: var(--color-accent);
+  border: none;
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 16px;
+  color: white;
+  transition: background 0.2s ease;
+  flex-shrink: 0;
+}
+
+.cortex-send-btn:hover:not(:disabled) {
+  background: var(--color-accent-hover);
+}
+
+.cortex-send-btn:disabled {
+  background: var(--background-modifier-border);
+  cursor: not-allowed;
+  color: var(--text-muted);
+}
+
+/* Scrollbar Styling */
+.cortex-messages::-webkit-scrollbar,
+.cortex-session-list::-webkit-scrollbar,
+.cortex-agent-dropdown::-webkit-scrollbar {
+  width: 6px;
+}
+
+.cortex-messages::-webkit-scrollbar-track,
+.cortex-session-list::-webkit-scrollbar-track,
+.cortex-agent-dropdown::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.cortex-messages::-webkit-scrollbar-thumb,
+.cortex-session-list::-webkit-scrollbar-thumb,
+.cortex-agent-dropdown::-webkit-scrollbar-thumb {
+  background: var(--background-modifier-border);
+  border-radius: 3px;
+}
+
+.cortex-messages::-webkit-scrollbar-thumb:hover,
+.cortex-session-list::-webkit-scrollbar-thumb:hover,
+.cortex-agent-dropdown::-webkit-scrollbar-thumb:hover {
+  background: var(--background-modifier-border-hover);
+}
+
+/* Dark theme adjustments */
+.theme-dark .cortex-message.user .cortex-message-content {
+  background: var(--color-accent);
+}
+
+.theme-dark .cortex-message.assistant .cortex-message-content {
+  background: var(--background-secondary-alt);
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+  .cortex-messages {
+    padding: 12px;
+  }
+  
+  .cortex-message {
+    max-width: 95%;
+  }
+  
+  .cortex-input-area {
+    padding: 8px;
+  }
+}

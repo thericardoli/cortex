@@ -1,94 +1,107 @@
-# Obsidian Sample Plugin
+# Cortex - Multi-Agent AI Plugin for Obsidian
 
-This is a sample plugin for Obsidian (https://obsidian.md).
+A powerful AI plugin that enables multiple AI agents with different capabilities within Obsidian. Create specialized agents, manage multiple chat sessions, and leverage your knowledge base through RAG (Retrieval-Augmented Generation).
 
-This project uses TypeScript to provide type checking and documentation.
-The repo depends on the latest plugin API (obsidian.d.ts) in TypeScript Definition format, which contains TSDoc comments describing what it does.
+## Features
 
-This sample plugin demonstrates some of the basic functionality the plugin API can do.
-- Adds a ribbon icon, which shows a Notice when clicked.
-- Adds a command "Open Sample Modal" which opens a Modal.
-- Adds a plugin setting tab to the settings page.
-- Registers a global click event and output 'click' to the console.
-- Registers a global interval which logs 'setInterval' to the console.
+- **Multi-Agent System**: Create and manage multiple AI agents with different personalities and capabilities
+- **Multiple Chat Sessions**: Each agent can have multiple independent conversations
+- **Provider Support**: Works with OpenAI, Anthropic, and Ollama
+- **Local Data Storage**: All data stored locally in `.cortex/` directory
+- **Agent Configuration**: Customize instructions, models, and tools for each agent
+- **Session Management**: Create, rename, and delete chat sessions
+- **Import/Export**: Share agent configurations
 
-## First time developing plugins?
+## Installation
 
-Quick starting guide for new plugin devs:
+1. Copy the plugin files to your Obsidian vault's `.obsidian/plugins/cortex/` directory
+2. Enable the plugin in Obsidian Settings → Community plugins
+3. Configure your AI providers in the plugin settings
 
-- Check if [someone already developed a plugin for what you want](https://obsidian.md/plugins)! There might be an existing plugin similar enough that you can partner up with.
-- Make a copy of this repo as a template with the "Use this template" button (login to GitHub if you don't see it).
-- Clone your repo to a local development folder. For convenience, you can place this folder in your `.obsidian/plugins/your-plugin-name` folder.
-- Install NodeJS, then run `npm i` in the command line under your repo folder.
-- Run `npm run dev` to compile your plugin from `main.ts` to `main.js`.
-- Make changes to `main.ts` (or create new `.ts` files). Those changes should be automatically compiled into `main.js`.
-- Reload Obsidian to load the new version of your plugin.
-- Enable plugin in settings window.
-- For updates to the Obsidian API run `npm update` in the command line under your repo folder.
+## Configuration
 
-## Releasing new releases
+### Provider Setup
 
-- Update your `manifest.json` with your new version number, such as `1.0.1`, and the minimum Obsidian version required for your latest release.
-- Update your `versions.json` file with `"new-plugin-version": "minimum-obsidian-version"` so older versions of Obsidian can download an older version of your plugin that's compatible.
-- Create new GitHub release using your new version number as the "Tag version". Use the exact version number, don't include a prefix `v`. See here for an example: https://github.com/obsidianmd/obsidian-sample-plugin/releases
-- Upload the files `manifest.json`, `main.js`, `styles.css` as binary attachments. Note: The manifest.json file must be in two places, first the root path of your repository and also in the release.
-- Publish the release.
+1. Go to Settings → Cortex
+2. Enter your API keys for the providers you want to use:
+   - **OpenAI**: Enter your OpenAI API key
+   - **Anthropic**: Enter your Anthropic API key  
+   - **Ollama**: Enter your Ollama server URL (default: http://localhost:11434)
 
-> You can simplify the version bump process by running `npm version patch`, `npm version minor` or `npm version major` after updating `minAppVersion` manually in `manifest.json`.
-> The command will bump version in `manifest.json` and `package.json`, and add the entry for the new version to `versions.json`
+### Creating Your First Agent
 
-## Adding your plugin to the community plugin list
+1. Click the Cortex icon in the ribbon or use the command palette
+2. Click "Create Agent" in the sidebar
+3. Configure:
+   - **Name**: Give your agent a descriptive name
+   - **Instructions**: Define the agent's personality and capabilities
+   - **Model**: Choose from available models for your configured providers
+   - **Settings**: Adjust temperature, max tokens, etc.
 
-- Check the [plugin guidelines](https://docs.obsidian.md/Plugins/Releasing/Plugin+guidelines).
-- Publish an initial version.
-- Make sure you have a `README.md` file in the root of your repo.
-- Make a pull request at https://github.com/obsidianmd/obsidian-releases to add your plugin.
+## Usage
 
-## How to use
+### Agent Management
 
-- Clone this repo.
-- Make sure your NodeJS is at least v16 (`node --version`).
-- `npm i` or `yarn` to install dependencies.
-- `npm run dev` to start compilation in watch mode.
+- **Create Agent**: Click the "+" button in the sidebar
+- **Edit Agent**: Click the edit icon on any agent card
+- **Delete Agent**: Click the delete icon (this will also delete all sessions)
+- **Export Agent**: Click the export icon to save agent configuration as JSON
+- **Import Agent**: Click "Import" to load an agent configuration
 
-## Manually installing the plugin
+### Chat Sessions
 
-- Copy over `main.js`, `styles.css`, `manifest.json` to your vault `VaultFolder/.obsidian/plugins/your-plugin-id/`.
+- **New Session**: Select an agent and click "New Session"
+- **Switch Sessions**: Click on any session in the list
+- **Rename Session**: Click the edit icon next to a session name
+- **Delete Session**: Click the delete icon next to a session
 
-## Improve code quality with eslint (optional)
-- [ESLint](https://eslint.org/) is a tool that analyzes your code to quickly find problems. You can run ESLint against your plugin to find common bugs and ways to improve your code. 
-- To use eslint with this project, make sure to install eslint from terminal:
-  - `npm install -g eslint`
-- To use eslint to analyze this project use this command:
-  - `eslint main.ts`
-  - eslint will then create a report with suggestions for code improvement by file and line number.
-- If your source code is in a folder, such as `src`, you can use eslint with this command to analyze all files in that folder:
-  - `eslint .\src\`
+### Chatting
 
-## Funding URL
+- Type your message in the input field
+- Press Enter to send (Shift+Enter for new line)
+- View conversation history with timestamps
+- See token usage and message counts
 
-You can include funding URLs where people who use your plugin can financially support it.
+## File Structure
 
-The simple way is to set the `fundingUrl` field to your link in your `manifest.json` file:
-
-```json
-{
-    "fundingUrl": "https://buymeacoffee.com"
-}
+```
+.cortex/
+├── config/
+│   └── agents/
+│       ├── agent-1.json
+│       └── agent-2.json
+└── sessions/
+    ├── agent-1/
+    │   ├── session-1.json
+    │   └── session-2.json
+    └── agent-2/
+        └── session-1.json
 ```
 
-If you have multiple URLs, you can also do:
+## Development
 
-```json
-{
-    "fundingUrl": {
-        "Buy Me a Coffee": "https://buymeacoffee.com",
-        "GitHub Sponsor": "https://github.com/sponsors",
-        "Patreon": "https://www.patreon.com/"
-    }
-}
+### Building
+
+```bash
+npm install
+npm run build
 ```
 
-## API Documentation
+### Development Mode
 
-See https://github.com/obsidianmd/obsidian-api
+```bash
+npm run dev
+```
+
+## Future Features
+
+- RAG integration with vault content
+- Agent handoffs between specialists
+- Tool system with web search, file search, etc.
+- MCP (Model Context Protocol) support
+- Streaming responses
+- Voice interaction
+
+## License
+
+MIT License
