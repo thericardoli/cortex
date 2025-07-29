@@ -13,7 +13,7 @@
 		"test:all": "vitest run"
 	},
 	"keywords": [],
-	"author": "",
+	"author": "thericardoli",
 	"license": "MIT",
 	"devDependencies": {
 		"@types/node": "^16.18.126",
