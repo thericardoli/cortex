@@ -40,7 +40,11 @@ const context = await esbuild.context({
     treeShaking: true,
     outfile: "main.js",
     minify: prod,
-    jsx: "transform",
+    jsx: "automatic",
+    jsxImportSource: "react",
+    loader: {
+        '.css': 'text',
+    },
     define: {
         "process.env.NODE_ENV": prod ? '"production"' : '"development"',
     }
