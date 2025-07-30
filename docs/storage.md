@@ -80,7 +80,7 @@ await sessionStorage.saveSession(session);
 - **`exists(path: string): Promise<boolean>`** - 检查文件是否存在
 - **`listFiles(directory: string): Promise<Result<string[]>>`** - 列出目录中的文件
 
-### ConfigStorage
+### AgentStorage
 - **`saveAgentConfig(config: AgentConfig): Promise<Result<void>>`** - 保存智能体配置
   - 包含 Zod schema 验证，自动存储到 `agents/{id}.json`
 - **`loadAgentConfig(id: string): Promise<Result<AgentConfig>>`** - 加载配置

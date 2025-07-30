@@ -2,7 +2,7 @@ import { AgentConfigSchema } from '../types';
 import type { AgentConfig, Result } from '../types';
 import { StorageManager } from './storage-manager';
 
-export class ConfigStorage {
+export class AgentStorage {
   private storage: StorageManager;
 
   constructor(storage: StorageManager) {

@@ -91,10 +91,6 @@ export const CreateAgentModal: React.FC<CreateAgentModalProps> = ({
       newErrors.model = '请选择模型';
     }
 
-    if (formData.maxTokens < 100 || formData.maxTokens > 128000) {
-      newErrors.maxTokens = '最大令牌数必须在 100-128000 之间';
-    }
-
     if (formData.temperature < 0 || formData.temperature > 2) {
       newErrors.temperature = '温度必须在 0-2 之间';
     }

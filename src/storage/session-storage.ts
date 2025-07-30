@@ -135,7 +135,6 @@ export class SessionStorage {
   async getRecentHistory(
     agentId: string, 
     sessionId: string, 
-    limit = 50
   ): Promise<Result<AgentHistoryItem[]>> {
     try {
       const sessionResult = await this.loadSession(agentId, sessionId);
@@ -155,7 +154,7 @@ export class SessionStorage {
         };
       }
       
-      const recentHistory = session.history.slice(-limit);
+      const recentHistory = session.history;
       
       return { success: true, data: recentHistory };
     } catch (error) {

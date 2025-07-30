@@ -330,7 +330,6 @@ export class SessionManager {
 
 	async getRecentMessages(
 		sessionId: string,
-		limit = 50
 	): Promise<Result<AgentHistoryItem[]>> {
 		try {
 			const session = this.sessions.get(sessionId);
@@ -342,7 +341,7 @@ export class SessionManager {
 			}
 
 			// Return the last 'limit' items from history
-			const recentItems = session.history.slice(-limit);
+			const recentItems = session.history;
 			return { success: true, data: recentItems };
 		} catch (error) {
 			return {

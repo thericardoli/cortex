@@ -1,3 +1,4 @@
 export * from './storage-manager';
-export * from './config-storage';
+export * from './agent-storage';
 export * from './session-storage';
+export * from './provider-storage';
