@@ -7,7 +7,6 @@ export interface CortexSettings {
   openaiBaseUrl: string;
   anthropicApiKey: string;
   ollamaBaseUrl: string;
-  defaultProvider: 'OpenAI' | 'Anthropic' | 'Ollama';
   
   // 通用设置
   autoSaveChats: boolean;
@@ -24,7 +23,6 @@ export const DEFAULT_SETTINGS: CortexSettings = {
   openaiBaseUrl: 'https://api.openai.com/v1',
   anthropicApiKey: '',
   ollamaBaseUrl: 'http://localhost:11434',
-  defaultProvider: 'OpenAI',
   autoSaveChats: true,
   showTimestamps: false,
   maxStorageSize: 100,
@@ -99,19 +97,6 @@ export class CortexSettingTab extends PluginSettingTab {
         }));
 
     // 默认提供者
-    new Setting(containerEl)
-      .setName('默认提供者')
-      .setDesc('选择默认的 AI 模型提供者')
-      .addDropdown(dropdown => dropdown
-        .addOption('OpenAI', 'OpenAI')
-        .addOption('Anthropic', 'Anthropic')
-        .addOption('Ollama', 'Ollama')
-        .setValue(this.plugin.settings.defaultProvider)
-        .onChange(async (value) => {
-          this.plugin.settings.defaultProvider = value as any;
-          await this.plugin.saveSettings();
-        }));
-
     // 通用设置部分
     containerEl.createEl('h2', { text: '通用设置' });
 

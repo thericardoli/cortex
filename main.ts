@@ -128,10 +128,9 @@ export default class CortexPlugin extends Plugin {
     this.storageManager = new StorageManager(this.app);
     await this.storageManager.initialize();
 
-    // 初始化提供者管理器
+    // 初始化提供者管理器（简化版本）
     this.providerManager = new ProviderManager();
-    // 这里将来会从设置中加载配置
-    // await this.providerManager.initialize(settings);
+    await this.providerManager.initialize();
 
     // 初始化智能体管理器
     this.agentManager = new AgentManager(/* 依赖参数 */);

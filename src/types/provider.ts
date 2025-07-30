@@ -21,14 +21,6 @@ export const ProviderConfigSchema = z.object({
 
 export type ProviderConfig = z.infer<typeof ProviderConfigSchema>;
 
-// Global provider settings schema
-export const GlobalProviderSettingsSchema = z.object({
-  providers: z.record(ProviderConfigSchema),
-  defaultProvider: ModelProviderSchema.optional(),
-}).strict();
-
-export type GlobalProviderSettings = z.infer<typeof GlobalProviderSettingsSchema>;
-
 // Model info schema 
 export const ModelInfoSchema = z.object({
   id: z.string(),
@@ -37,7 +29,6 @@ export const ModelInfoSchema = z.object({
   
   // 模型能力信息
   contextLength: z.number().optional(),
-  maxOutputTokens: z.number().optional(),
   supportsVision: z.boolean().default(false),
   supportsTools: z.boolean().default(false),
   reasoningModel: z.boolean().default(false),
@@ -45,23 +36,11 @@ export const ModelInfoSchema = z.object({
 
 export type ModelInfo = z.infer<typeof ModelInfoSchema>;
 
-// Provider capabilities schema
-export const ProviderCapabilitiesSchema = z.object({
-  supportsTools: z.boolean().default(true),
-  supportsVision: z.boolean().default(false),
-  maxContextLength: z.number().optional(),
-  supportedModels: z.array(ModelInfoSchema).default([]),
-}).strict();
-
-export type ProviderCapabilities = z.infer<typeof ProviderCapabilitiesSchema>;
-
 // Provider status schema
 export const ProviderStatusSchema = z.object({
   provider: ModelProviderSchema,
   status: z.enum(['connected', 'disconnected', 'error']),
-  lastChecked: z.number().optional(),
   error: z.string().optional(),
-  capabilities: ProviderCapabilitiesSchema.optional(),
 }).strict();
 
 export type ProviderStatus = z.infer<typeof ProviderStatusSchema>;

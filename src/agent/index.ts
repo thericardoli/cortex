@@ -21,6 +21,5 @@ export type {
 export type {
   ModelProvider,
   ProviderConfig,
-  GlobalProviderSettings,
   ModelInfo
 } from '../types/provider';
