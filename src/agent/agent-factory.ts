@@ -49,7 +49,7 @@ export class AgentFactory {
    * Resolve model configuration based on provider
    */
   private static async resolveModel(config: AgentConfig): Promise<string> {
-    const { provider, model } = config.modelConfig;
+    const { providerID, model } = config.modelConfig;
     
     // For now, return the model name directly
     // In the future, this could handle provider-specific model resolution

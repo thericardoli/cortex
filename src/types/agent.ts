@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { ModelProviderSchema } from './provider';
+import { ModelProviderTypeSchema } from './provider';
 
 export const ToolChoiceSchema = z.union([
   z.enum(['auto', 'required', 'none']),
@@ -33,7 +33,7 @@ export type ModelSettings = z.infer<typeof ModelSettingsSchema>;
 
 // Model configuration schema
 export const ModelConfigSchema = z.object({
-  provider: ModelProviderSchema,
+  providerID: z.string().min(1), // provider ID，指向具体的 provider 实例
   model: z.string().min(1),
   settings: ModelSettingsSchema.optional(),
 }).strict();

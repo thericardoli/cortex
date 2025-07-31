@@ -15,7 +15,9 @@ describe('OpenAICompatibleProvider', () => {
 
   beforeEach(() => {
     config = {
-      provider: 'OpenAICompatible',
+      id: 'test-openai-compatible',
+      providerType: 'OpenAICompatible',
+      name: 'Test OpenAI Compatible',
       apiKey: process.env.OPENROUTER_API_KEY,
       baseUrl: 'https://openrouter.ai/api/v1',
       enabled: true,

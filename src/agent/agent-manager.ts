@@ -215,16 +215,16 @@ export class AgentManager extends EventEmitter {
 	 */
 	private async generateAgent(config: AgentConfig): Promise<Agent> {
 		// If we have a provider manager, try to get the model from the provider
-		if (this.providerManager && config.modelConfig.provider) {
+		if (this.providerManager && config.modelConfig.providerID) {
 			try {
-				const provider = this.providerManager.getProvider(config.modelConfig.provider);
+				const provider = this.providerManager.getProvider(config.modelConfig.providerID);
 				if (provider) {
-					console.log(`🔗 使用 Provider "${config.modelConfig.provider}" 获取模型 "${config.modelConfig.model}"`);
+					console.log(`🔗 使用 Provider "${config.modelConfig.providerID}" 获取模型 "${config.modelConfig.model}"`);
 					const model = await provider.getModel(config.modelConfig.model);
 					return await AgentFactory.createAgentInstance(config, model);
 				}
 			} catch (error) {
-				console.warn(`警告：无法从 Provider "${config.modelConfig.provider}" 获取模型:`, error);
+				console.warn(`警告：无法从 Provider "${config.modelConfig.providerID}" 获取模型:`, error);
 				console.log('🔄 回退到默认 Agent 创建方式');
 			}
 		}
@@ -336,7 +336,7 @@ export class AgentManager extends EventEmitter {
 				name: agent.name,
 				createdAt: agent.createdAt,
 				updatedAt: agent.updatedAt,
-				provider: agent.modelConfig.provider,
+				providerID: agent.modelConfig.providerID,
 				model: agent.modelConfig.model,
 				toolsCount: agent.tools.length,
 				mcpServersCount: agent.mcpServers.length,

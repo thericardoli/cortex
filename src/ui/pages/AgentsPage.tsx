@@ -89,7 +89,7 @@ export const AgentsPage: React.FC = () => {
                 </p>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <span style={{ fontSize: '0.75rem', color: '#6b7280' }}>
-                    {agent.modelConfig.provider} / {agent.modelConfig.model}
+                    {agent.modelConfig.providerID} / {agent.modelConfig.model}
                   </span>
                   <Button 
                     size="sm" 

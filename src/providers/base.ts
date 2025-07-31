@@ -1,5 +1,5 @@
 import type { Model, ModelProvider as AgentModelProvider } from '@openai/agents-core';
-import type { ModelProvider, ProviderConfig, ModelInfo, ProviderStatus } from '../types/provider';
+import type { ModelProvider, ProviderConfig, ProviderStatus } from '../types/provider';
 
 /**
  * 基础Provider接口
@@ -55,7 +55,7 @@ export abstract class BaseProvider implements IModelProvider, AgentModelProvider
   }
 
   get provider(): ModelProvider {
-    return this._config.provider;
+    return this._config.providerType;
   }
 
   abstract initialize(): Promise<void>;
@@ -67,16 +67,14 @@ export abstract class BaseProvider implements IModelProvider, AgentModelProvider
     try {
       const isConnected = await this.testConnection();
       return {
-        provider: this.provider,
+        providerId: this._config.id,
         status: isConnected ? 'connected' : 'disconnected',
-        lastChecked: Date.now(),
         error: undefined,
       };
     } catch (error) {
       return {
-        provider: this.provider,
+        providerId: this._config.id,
         status: 'error',
-        lastChecked: Date.now(),
         error: error instanceof Error ? error.message : String(error),
       };
     }

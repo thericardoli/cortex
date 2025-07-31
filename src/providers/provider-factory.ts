@@ -2,7 +2,6 @@ import type { ModelProvider, ProviderConfig } from '../types/provider';
 import type { IModelProvider } from './base';
 import { OpenAIProvider } from './openai';
 import { OpenAICompatibleProvider } from './openai-compatible';
-import { OllamaProvider } from './ollama';
 
 /**
  * 根据配置创建对应的Provider实例
@@ -12,18 +11,15 @@ export class ProviderFactory {
    * 创建Provider实例
    */
   static createProvider(config: ProviderConfig): IModelProvider {
-    switch (config.provider) {
+    switch (config.providerType) {
       case 'OpenAI':
         return new OpenAIProvider(config);
-
-      case 'Ollama':
-        return new OllamaProvider(config);
       
       case 'OpenAICompatible':
         return new OpenAICompatibleProvider(config);
       
       default:
-        throw new Error(`Unsupported provider: ${config.provider as string}`);
+        throw new Error(`Unsupported provider: ${config.providerType as string}`);
     }
   }
 
@@ -34,8 +30,12 @@ export class ProviderFactory {
     const errors: string[] = [];
 
     // 通用验证
-    if (!config.provider) {
-      errors.push('Provider type is required');
+    if (!config.id || !config.id.trim()) {
+      errors.push('Provider ID is required');
+    }
+    
+    if (!config.name || !config.name.trim()) {
+      errors.push('Provider name is required');
     }
 
     if (!config.enabled) {
@@ -44,7 +44,7 @@ export class ProviderFactory {
     }
 
     // 特定Provider验证
-    switch (config.provider) {
+    switch (config.providerType) {
       case 'OpenAI':
         if (!config.apiKey) {
           errors.push('OpenAI API key is required');
@@ -53,23 +53,15 @@ export class ProviderFactory {
 
       case 'OpenAICompatible':
         if (!config.baseUrl) {
-          errors.push('Base URL is required for OpenAI Compatible provider');
+          errors.push('Base URL is required');
         }
-        break;
-
-      case 'Ollama':
-        // Ollama 可以使用默认配置，但如果提供了 baseUrl 需要验证格式
-        if (config.baseUrl) {
-          try {
-            new URL(config.baseUrl);
-          } catch {
-            errors.push('Invalid base URL format for Ollama provider');
-          }
+        if (!config.apiKey) {
+          errors.push('API key is required');
         }
         break;
 
       default:
-        errors.push(`Unknown provider: ${config.provider as string}`);
+        errors.push(`Unknown provider: ${config.providerType as string}`);
     }
 
     return {
@@ -79,22 +71,17 @@ export class ProviderFactory {
   }
 
   /**
-   * 获取支持的Provider列表
+   * 获取Provider的默认配置模板
    */
-  static getSupportedProviders(): ModelProvider[] {
-    return ['OpenAI', 'OpenAICompatible', 'Ollama'];
-  }
-
-  /**
-   * 获取Provider的默认配置
-   */
-  static getDefaultConfig(provider: ModelProvider): Partial<ProviderConfig> {
-    const baseConfig = {
-      provider,
+  static getDefaultConfig(providerType: ModelProvider, id?: string): Partial<ProviderConfig> {
+    const baseConfig: Partial<ProviderConfig> = {
+      providerType,
       enabled: true,
     };
 
-    switch (provider) {
+    if (id) baseConfig.id = id;
+
+    switch (providerType) {
       case 'OpenAI':
         return {
           ...baseConfig,
@@ -107,15 +94,28 @@ export class ProviderFactory {
           baseUrl: '',
         };
 
-      case 'Ollama':
-        return {
-          ...baseConfig,
-          baseUrl: 'http://localhost:11434/v1',
-          apiKey: 'ollama',
-        };
-
       default:
         return baseConfig;
     }
+  }
+
+  /**
+   * 创建完整的Provider配置
+   */
+  static createProviderConfig(
+    providerType: ModelProvider,
+    id: string,
+    name: string,
+    options: Partial<ProviderConfig> = {}
+  ): ProviderConfig {
+    const defaultConfig = this.getDefaultConfig(providerType, id);
+    return {
+      id,
+      providerType,
+      name,
+      enabled: true,
+      ...defaultConfig,
+      ...options,
+    } as ProviderConfig;
   }
 }

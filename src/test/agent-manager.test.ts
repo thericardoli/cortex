@@ -8,7 +8,7 @@ function createTestInput(overrides: Partial<CreateAgentInput> = {}): CreateAgent
     name: 'Test Agent',
     instructions: 'You are a helpful test agent',
     modelConfig: {
-      provider: 'OpenAI' as const,
+      providerID: 'OpenAI' as const,
       model: 'gpt-4',
       settings: {
         temperature: 0.7,
@@ -41,7 +41,7 @@ describe('AgentManager', () => {
       expect(agent.id).toBeTruthy();
       expect(agent.name).toBe(input.name);
       expect(agent.instructions).toBe(input.instructions);
-      expect(agent.modelConfig.provider).toBe(input.modelConfig.provider);
+      expect(agent.modelConfig.providerID).toBe(input.modelConfig.providerID);
       expect(agent.modelConfig.model).toBe(input.modelConfig.model);
       expect(agent.createdAt).toBeTruthy();
       expect(agent.updatedAt).toBeTruthy();
@@ -153,7 +153,7 @@ describe('AgentManager', () => {
         name: 'Agent 2', 
         instructions: 'You are agent 2',
         modelConfig: {
-          provider: 'OpenAI',
+          providerID: 'OpenAI',
           model: 'gpt-3.5-turbo',
         }
       });

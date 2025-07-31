@@ -1,4 +1,4 @@
-import type { ModelProvider, ProviderConfig, ProviderStatus } from '../types/provider';
+import type { ProviderConfig, ProviderStatus } from '../types/provider';
 import type { IModelProvider } from './base';
 import { ProviderFactory } from './provider-factory';
 
@@ -6,7 +6,7 @@ import { ProviderFactory } from './provider-factory';
  * ProviderManager - 负责管理所有Provider实例的生命周期
  */
 export class ProviderManager {
-  private _providers: Map<ModelProvider, IModelProvider> = new Map();
+  private _providers: Map<string, IModelProvider> = new Map(); // key: provider id
 
   /**
    * 初始化ProviderManager（现在不需要参数）
@@ -16,14 +16,14 @@ export class ProviderManager {
   /**
    * 获取Provider实例
    */
-  getProvider(providerType: ModelProvider): IModelProvider | null {
-    return this._providers.get(providerType) || null;
+  getProvider(providerId: string): IModelProvider | null {
+    return this._providers.get(providerId) || null;
   }
 
   /**
    * 获取所有可用的Provider
    */
-  getAvailableProviders(): ModelProvider[] {
+  getAvailableProviders(): string[] {
     return Array.from(this._providers.keys());
   }
 
@@ -38,67 +38,57 @@ export class ProviderManager {
     }
 
     // 移除旧的provider（如果存在）
-    await this.removeProvider(config.provider);
+    await this.removeProvider(config.id);
 
     // 创建并初始化新provider
     if (config.enabled) {
       const provider = ProviderFactory.createProvider(config);
       await provider.initialize();
-      this._providers.set(config.provider, provider);
+      this._providers.set(config.id, provider);
     }
   }
 
   /**
    * 移除Provider
    */
-  async removeProvider(providerType: ModelProvider): Promise<void> {
-    const provider = this._providers.get(providerType);
+  async removeProvider(providerId: string): Promise<void> {
+    const provider = this._providers.get(providerId);
     if (provider) {
       await provider.dispose();
-      this._providers.delete(providerType);
+      this._providers.delete(providerId);
     }
   }
 
   /**
    * 检查Provider是否可用
    */
-  isProviderAvailable(providerType: ModelProvider): boolean {
-    return this._providers.has(providerType);
+  isProviderAvailable(providerId: string): boolean {
+    return this._providers.has(providerId);
   }
 
   /**
    * 获取Provider状态
    */
-  async getProviderStatus(providerType: ModelProvider): Promise<ProviderStatus | null> {
-    const provider = this._providers.get(providerType);
+  async getProviderStatus(providerId: string): Promise<ProviderStatus | null> {
+    const provider = this._providers.get(providerId);
     if (!provider) {
-      return {
-        provider: providerType,
-        status: 'disconnected',
-        error: 'Provider not found',
-      };
+      return null;
     }
-
     try {
       return await provider.getStatus();
     } catch (error) {
-      return {
-        provider: providerType,
-        status: 'error',
-        error: error instanceof Error ? error.message : 'Unknown error',
-      };
+      return null;
     }
   }
 
   /**
    * 测试Provider连接
    */
-  async testProvider(providerType: ModelProvider): Promise<boolean> {
-    const provider = this._providers.get(providerType);
+  async testProvider(providerId: string): Promise<boolean> {
+    const provider = this._providers.get(providerId);
     if (!provider) {
       return false;
     }
-
     try {
       return await provider.testConnection();
     } catch {

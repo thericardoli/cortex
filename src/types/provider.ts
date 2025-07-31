@@ -1,18 +1,19 @@
 import { z } from 'zod';
 
 // 支持的模型提供商枚举
-export const ModelProviderSchema = z.enum([
+export const ModelProviderTypeSchema = z.enum([
   'OpenAI',          
-  'OpenAICompatible',
-  'Ollama'
+  'OpenAICompatible'
 ]);
 
-export type ModelProvider = z.infer<typeof ModelProviderSchema>;
+export type ModelProvider = z.infer<typeof ModelProviderTypeSchema>;
 
 // Provider configuration schema
+
 export const ProviderConfigSchema = z.object({
-  provider: ModelProviderSchema,
-  
+  id: z.string().min(1),
+  providerType: ModelProviderTypeSchema,
+  name: z.string().min(1),
   // 通用配置
   apiKey: z.string().optional(),
   baseUrl: z.string().url().optional(),
@@ -25,7 +26,7 @@ export type ProviderConfig = z.infer<typeof ProviderConfigSchema>;
 export const ModelInfoSchema = z.object({
   id: z.string(),
   name: z.string(),
-  provider: ModelProviderSchema,
+  providerId: z.string(),
   
   // 模型能力信息
   contextLength: z.number().optional(),
@@ -38,7 +39,7 @@ export type ModelInfo = z.infer<typeof ModelInfoSchema>;
 
 // Provider status schema
 export const ProviderStatusSchema = z.object({
-  provider: ModelProviderSchema,
+  providerId: z.string(),
   status: z.enum(['connected', 'disconnected', 'error']),
   error: z.string().optional(),
 }).strict();
