@@ -12,8 +12,8 @@ export type ModelProvider = z.infer<typeof ModelProviderTypeSchema>;
 
 export const ProviderConfigSchema = z.object({
   id: z.string().min(1),
-  providerType: ModelProviderTypeSchema,
   name: z.string().min(1),
+  providerType: ModelProviderTypeSchema,
   // 通用配置
   apiKey: z.string().optional(),
   baseUrl: z.string().url().optional(),

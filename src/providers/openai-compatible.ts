@@ -1,6 +1,7 @@
 import type { Model } from '@openai/agents-core';
 import { OpenAIProvider as AgentOpenAIProvider } from '@openai/agents-openai';
 import { BaseProvider } from './base';
+import { OpenAI } from 'openai';
 
 /**
  * OpenAI Compatible Provider
@@ -14,14 +15,9 @@ export class OpenAICompatibleProvider extends BaseProvider {
     }
 
     // 创建自定义 OpenAI 客户端
-    const customOpenAIClient = new (await import('openai')).OpenAI({
+    const customOpenAIClient = new OpenAI({
       apiKey: this.config.apiKey,
       baseURL: this.config.baseUrl,
-    });
-
-    console.log('🔧 初始化 OpenAI Compatible Provider:', { 
-      baseUrl: this.config.baseUrl, 
-      apiKey: this.config.apiKey?.substring(0, 10) + '...' 
     });
 
     // 测试连接
@@ -36,10 +32,9 @@ export class OpenAICompatibleProvider extends BaseProvider {
     // 使用 Chat Completions API 而不是 Responses API
     this._openaiProvider = new AgentOpenAIProvider({
       openAIClient: customOpenAIClient,
-      useResponses: false,  // 关键：强制使用 Chat Completions API
+      useResponses: false,  // 强制使用 Chat Completions API
     });
 
-    console.log('✅ AgentOpenAIProvider (OpenAI Compatible) 初始化完成');
     this._initialized = true;
   }
 

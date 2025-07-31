@@ -1,5 +1,4 @@
 import { z } from 'zod';
-import { ModelProviderTypeSchema } from './provider';
 
 export const ToolChoiceSchema = z.union([
   z.enum(['auto', 'required', 'none']),
@@ -42,13 +41,13 @@ export type ModelConfig = z.infer<typeof ModelConfigSchema>;
 
 // Tool configuration schema - 扩展以支持SDK特性
 export const ToolConfigSchema = z.object({
-  type: z.enum(['builtin', 'custom', 'mcp', 'hosted']), // 添加hosted类型
+  type: z.enum(['builtin', 'custom', 'mcp', 'agent']),
   name: z.string().min(1),
   enabled: z.boolean().default(true),
   // 对于function tools的详细配置
   description: z.string().optional(),
   parameters: z.record(z.any()).optional(), // JSON schema for parameters
-  strict: z.boolean().optional(), // 是否启用strict mode
+  strict: z.boolean().optional(), 
   needsApproval: z.boolean().default(false), // 是否需要人工批准
   config: z.record(z.any()).optional(),
 }).strict();

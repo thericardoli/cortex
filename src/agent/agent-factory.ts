@@ -77,8 +77,8 @@ export class AgentFactory {
         case 'mcp':
           // MCP tools are handled separately in setupMCPServers
           break;
-        case 'hosted':
-          tools.push(await this.createHostedTool(toolConfig));
+        case 'agent':
+          tools.push(await this.createAgentTool(toolConfig));
           break;
       }
     }
@@ -121,16 +121,16 @@ export class AgentFactory {
   }
 
   /**
-   * Create a hosted tool
+   * Create an agent tool
    */
-  private static async createHostedTool(config: ToolConfig): Promise<any> {
-    // This will be implemented when we have hosted tool support
+  private static async createAgentTool(config: ToolConfig): Promise<any> {
+    // This will be implemented when we have agent tool support
     // For now, return a placeholder
     return {
       type: 'function',
       function: {
         name: config.name,
-        description: config.description || 'A hosted tool',
+        description: config.description || 'A Agent tool',
         parameters: config.parameters || {},
         strict: config.strict || false,
       },
